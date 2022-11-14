@@ -14,7 +14,7 @@ public class FruitShop {
 			answer += scoreRap[i]*3;
 			
 		}
-		d
+		
 		return answer;
 	}
 	
