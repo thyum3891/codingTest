@@ -1,64 +1,61 @@
 package programers;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class NumberCardGame {
 	public int solution(int[] arrayA, int[] arrayB) {
-		int answer = 0;
 
 		Arrays.sort(arrayA);
 		Arrays.sort(arrayB);
 
-		int a = arrayA[0];
-		int b = arrayB[0];
-		int resultA = 0;
-		int resultB = 0;
-		for (int i = a; i > 1; i--) {
-			boolean isPass = true;
-			for (int num : arrayA) {
-				if (num % i != 0) {
-					isPass = false;
-				}
-			}
-			for (int num : arrayB) {
-				if (num % i == 0) {
-					isPass = false;
-				}
-			}
-			if (isPass) {
-				resultA = i;
-				break;
-			}
-		}
-		if (resultA > b) {
-			return resultA;
-		}
-		for (int i = b; i > 1; i--) {
-
-			boolean isPass = true;
-			for (int num : arrayB) {
-				if (num % i != 0) {
-					isPass = false;
-				}
-			}
-			for (int num : arrayA) {
-				if (num % i == 0) {
-					isPass = false;
-				}
-			}
-			if (isPass) {
-				resultB = i;
-				break;
-			}
-		}
-		if (resultA > resultB) {
-			return resultA;
-		} else {
-			return resultB;
-		}
+		List<Integer> listA = convertList(arrayA);
+		List<Integer> listB = convertList(arrayB);
+		
+		int resultA = result(listA,arrayB);
+		int resultB = result(listB,arrayA);
+		
+		return Math.max(resultA, resultB);
+		
 
 	}
-
+	public List<Integer> convertList(int[] intArr){
+		List<Integer> result = new ArrayList<Integer>();
+		int min = intArr[0];
+		for(int i = min; i>2;i--) {
+			boolean flag = true;
+			for(int j : intArr) {
+				if(j % i != 0) {
+					flag = false;
+					break;
+				}
+			}
+			if(flag) {
+				result.add(i);
+			}
+		}
+		
+		return result;
+		
+	}
+	
+	public int result(List<Integer> intList,int[] intArr) {
+		for(int i : intList) {
+			boolean flag = true;
+			for(int j : intArr) {
+				if(j % i == 0) {
+					flag = false;
+					break;
+				}
+			}
+			if(flag) {
+				return i;
+			}
+		}
+		return 0;
+	}
+	
+	
 	public static void main(String[] args) {
 		new NumberCardGame().solution(new int[] { 10, 20 }, new int[] { 5, 17 });
 	}
